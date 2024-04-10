@@ -6,7 +6,6 @@ on:
 
 env:
   json: '{"key":"value"}'
-  secret_json: ${{ secrets.SECRET }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,11 +15,12 @@ jobs:
         id: parse-secrets
         shell: bash
         env:
-          SECRET: ${{ env.secret_json }}
+          SECRET: ${{ secrets.SECRET }}
         run: |
           fruit=$(echo "$SECRET" | jq -r '.fruit // ""')
           tree=$(echo "$SECRET" | jq -r '.tree // ""')
           echo "::add-mask::$fruit"
+          echo "::add-mask::$tree"
           (
             echo "fruit=$fruit"
             echo "tree=$tree"
