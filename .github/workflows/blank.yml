@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  json: '{"key":"value"}'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: test
+        env:
+          key: ${{ fromJSON(env.json).key }}
+        run: |
+          echo "key: $key"
