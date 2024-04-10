@@ -18,6 +18,7 @@ jobs:
           fruit: ${{ fromJSON(env.secret_json).fruit }}
           tree: ${{ fromJSON(env.secret_json).tree }}
         run: |
+          echo "::add-mask::$fruit"
           echo "key: $key"
           echo "fruit: $fruit"
           echo "tree: $tree"
