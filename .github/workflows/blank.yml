@@ -15,8 +15,8 @@ jobs:
       - name: test
         env:
           key: ${{ fromJSON(env.json).key }}
-          fruit: ${{ fromJSON(env.json).fruit }}
-          tree: ${{ fromJSON(env.json).tree }}
+          fruit: ${{ fromJSON(env.secret_json).fruit }}
+          tree: ${{ fromJSON(env.secret_json).tree }}
         run: |
           echo "key: $key"
           echo "fruit: $fruit"
