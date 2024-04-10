@@ -12,13 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: parse
+        id: parse-secrets
+        shell: bash
+        env:
+          SECRET: ${{ env.secret_json }}
+        run: |
+          fruit=$(echo "$SECRET" | jq -r '.fruit // ""')
+          tree=$(echo "$SECRET" | jq -r '.tree // ""')
+          echo "::add-mask::$fruit"
+          (
+            echo "fruit=$fruit"
+            echo "tree=$tree"
+          ) >> $GITHUB_OUTPUT
+
       - name: test
         env:
           key: ${{ fromJSON(env.json).key }}
-          fruit: ${{ fromJSON(env.secret_json).fruit }}
-          tree: ${{ fromJSON(env.secret_json).tree }}
+          fruit: ${{ steps.parse-secrets.outputs.fruit }}
+          tree: ${{ steps.parse-secrets.outputs.tree }}
         run: |
-          echo "::add-mask::$fruit"
           echo "key: $key"
           echo "fruit: $fruit"
           echo "tree: $tree"
